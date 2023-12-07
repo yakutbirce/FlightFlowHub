@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import ReactPaginate from "react-paginate";
+
 const ListView = ({ openModal }) => {
   const store = useSelector((store) => store);
 

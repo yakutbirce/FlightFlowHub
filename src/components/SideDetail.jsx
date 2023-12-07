@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { detailOptions } from "./../helpers/contants/";
+import { detailOptions } from "./../helpers/constants/";
 
 const SideDetail = ({ detailId, setShowDetail }) => {
   const [detailInfo, setDetailInfo] = useState(null);
@@ -14,6 +14,8 @@ const SideDetail = ({ detailId, setShowDetail }) => {
       .then((res) => setDetailInfo(res.data))
       .catch((error) => console.log(error));
   }, [detailId]);
+
+  // console.log(detailInfo);
 
   return (
     <div className="detail-outer">

@@ -177,3 +177,21 @@ header img {
 .pagination .active a {
   padding: 10px;
 }
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  font-size: larger;
+}
+
+.search-container .search-input {
+  outline: none;
+  border-radius: 8px;
+  font-size: 20px;
+}
+
+.button-search {
+  font-size: 12px;
+}

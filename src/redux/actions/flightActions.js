@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { options } from "../../helpers/contants";
+import { options } from "../../helpers/constants";
 
 export const getFlights = createAsyncThunk("flights/getFlights", async () => {
   const res = await axios.request(options);
@@ -13,4 +13,4 @@ export const getFlights = createAsyncThunk("flights/getFlights", async () => {
   }));
 
   return newData;
-});
+})

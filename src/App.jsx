@@ -5,8 +5,6 @@ import MapView from "./pages/MapView";
 import ListView from "./pages/ListView";
 import { getFlights } from "./redux/actions/flightActions";
 import SideDetail from "./components/SideDetail";
-import SearchResults from "./components/SearchResults"; // SearchResults bileşenini ekledim
-
 function App() {
   const [showMapView, setShowMapView] = useState(true);
   const [showDetail, setShowDetail] = useState(false);
@@ -25,21 +23,30 @@ function App() {
   };
 
   const handleSearch = () => {
-    dispatch(getFlights(searchQuery));
+    // Kullanıcının girdiği arama terimine göre uçuşları filtrele
+    const filteredFlights = store.flights.filter((flight) =>
+      flight.code.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Filtrelenmiş uçuşları Redux store'a gönder
+    dispatch(setSearchResults(filteredFlights));
   };
 
   return (
     <>
       <Header />
 
-      <div>
+      <div className="search-container">
         <input
+          className="search-input"
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Uçuş Ara..."
         />
-        <button onClick={handleSearch}>Ara</button>
+        <button className="button-search" onClick={handleSearch}>
+          Ara
+        </button>
       </div>
 
       <div className="view-buttons">
@@ -58,13 +65,9 @@ function App() {
       </div>
 
       {searchQuery ? (
-        // Eğer bir arama yapıldıysa, arama sonuçlarını göster
-        <SearchResults
-          searchResults={store.searchResults}
-          openModal={openModal}
-        />
-      ) : // Aksi takdirde, normal görünümü göster
-      showMapView ? (
+        // Eğer bir arama yapıldıysa, filtrelenmiş sonuçları göster
+        <ListView openModal={openModal} />
+      ) : showMapView ? (
         <MapView openModal={openModal} />
       ) : (
         <ListView openModal={openModal} />
