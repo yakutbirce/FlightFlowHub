@@ -9,15 +9,13 @@ export const options = {
     limit: '300'
   },
   headers: {
-    'X-RapidAPI-Key': 'd443e0cb02msha496acef92222c6p1550f6jsn3edee9a3e32c',
+    'X-RapidAPI-Key': 'a15cc7dca2msheed276870508de5p1cfa74jsnb7332f7b6638',
     'X-RapidAPI-Host': 'flight-radar1.p.rapidapi.com'
   }
 };
-
 export const detailOptions = {
   headers: {
-    'X-RapidAPI-Key': 'd443e0cb02msha496acef92222c6p1550f6jsn3edee9a3e32c',
+    'X-RapidAPI-Key': 'a15cc7dca2msheed276870508de5p1cfa74jsnb7332f7b6638',
     'X-RapidAPI-Host': 'flight-radar1.p.rapidapi.com'
   }
 };
-

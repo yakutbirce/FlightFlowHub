@@ -9,7 +9,6 @@ const Header = () => {
         <img src="/logo-f.png" alt="" />
         <h2>FlightFlowHub</h2>
       </div>
-
       <h4>
         {store.isLoading
           ? "Uçuşlar Hesaplanıyor"
@@ -18,5 +17,4 @@ const Header = () => {
     </header>
   );
 };
-
 export default Header;

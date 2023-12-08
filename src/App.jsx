@@ -5,31 +5,18 @@ import ListView from "./pages/ListView";
 import { useDispatch } from "react-redux";
 import { getFlights } from "./redux/actions/flightActions";
 import SideDetail from "./components/SideDetail";
-
 function App() {
   const [showMapView, setShowMapView] = useState(true);
   const [showDetail, setShowDetail] = useState(false);
-  const [detailId, setDetailId] = useState();
-
+  const [detailId, setDetailId] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    /* 5 saniyede bir uçuş hareketleri güncellenir */
-    const ref = setInterval(() => {
-      dispatch(getFlights());
-    }, 5000);
-
-    /* kullanıcı farklı bir sayfaya geçince tekrarı durdurur */
-    return () => {
-      clearInterval(ref);
-    };
+    dispatch(getFlights());
   }, []);
 
-  /* modal açmak için */
   const openModal = (id) => {
-    /* detayı gösterilecek uçağın aid'si */
     setDetailId(id);
-    /* modalı açar */
     setShowDetail(true);
   };
 
@@ -44,7 +31,6 @@ function App() {
         >
           Harita Görünümü
         </button>
-
         <button
           className={!showMapView ? "active" : ""}
           onClick={() => setShowMapView(false)}
@@ -58,7 +44,6 @@ function App() {
       ) : (
         <ListView openModal={openModal} />
       )}
-
       {showDetail && (
         <SideDetail detailId={detailId} setShowDetail={setShowDetail} />
       )}

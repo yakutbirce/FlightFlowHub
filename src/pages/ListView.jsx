@@ -1,47 +1,50 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import ReactPaginate from "react-paginate";
-
 const ListView = ({ openModal }) => {
   const store = useSelector((store) => store);
-  const [itemOffset, setItemOffset] = useState(10);
 
-  /* SAYFALAMA HESAPLAMALARI */
+  const [itemOffset, setItemOffset] = useState(0);
+  //console.log(store.flights);
 
-  /* sayfa başına eleman sayısı */
+  /**Pagination Sistemi Kurmak Gerekli Değer
+   * Sayfa sayısı
+   * sayfada gösterilecek elememan sayısıfı
+   * ve o anki sayfada gösterilecek itemler / elemenalar
+   *
+   */
+
+  //Sayfa başına gösterilecek eleman sayısı
   const itemsPerPage = 10;
 
-  /* gösterilecek sonuncu eleman */
+  //Sonuncu elemeanın sayısı
   const endOffset = itemOffset + itemsPerPage;
+  //Sayfa başına o and gösterilecek elemean dizisi
+  const currentItems = store.flights.slice(itemOffset, endOffset);
 
-  /* gösterilecek aralıktaki elemanlar */
-  const currentItems = store?.flights.slice(itemOffset, endOffset);
-
-  /* toplam sayfa sayısı hesaplama */
-  const pageCount = Math.ceil(store?.flights.length / itemsPerPage);
+  const pageCount = Math.ceil(store.flights.length / itemsPerPage);
 
   const handlePageClick = (event) => {
-    /* gösterilecek yeni elemanları hesaplar */
-    const newOffset = (event.selected = itemsPerPage) % store?.flights.length;
-    /* state güncelleme */
+    const newOffset = (event.selected * itemsPerPage) % store.flights.length;
     setItemOffset(newOffset);
   };
 
   return (
     <div className="list-page">
-      <table className="table table-dark table-striped table-hover">
+      <table className="table table-dark">
         <thead>
           <tr>
             <th>ID</th>
             <th>Kuyruk Kodu</th>
             <th>Enlem</th>
             <th>Boylam</th>
-            <th>Detaylar</th>
+            <th>Detay Bilgisi</th>
           </tr>
         </thead>
+
         <tbody>
           {currentItems.map((flight) => (
-            <tr>
+            <tr key={flight.id}>
               <td>{flight.id}</td>
               <td>{flight.code}</td>
               <td>{flight.lat}</td>
@@ -54,13 +57,12 @@ const ListView = ({ openModal }) => {
         </tbody>
       </table>
       <ReactPaginate
-        previousLabel="< Önceki"
-        nextLabel="Sonraki >"
-        pageCount={pageCount}
         className="pagination"
+        pageCount={pageCount}
+        nextLabel="ileri >"
+        previousLabel="< geri"
         activeClassName="active"
         onPageChange={handlePageClick}
-        pageRangeDisplayed={2}
       />
     </div>
   );
