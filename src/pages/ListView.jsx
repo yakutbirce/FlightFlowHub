@@ -4,47 +4,44 @@ import ReactPaginate from "react-paginate";
 
 const ListView = ({ openModal }) => {
   const store = useSelector((store) => store);
+  const [itemOffset, setItemOffset] = useState(10);
 
-  const [itemOffset, setItemOffset] = useState(0);
-  //console.log(store.flights);
+  /* SAYFALAMA HESAPLAMALARI */
 
-  /*Pagination sistemi kurmak için gerekli değerler
-   *sayfa sayısı
-   *sayfada gösterilecek eleman sayısı
-   *o an sayfada gösterilecek itemler/elemanlar
-   */
-
-  //  sayfa başına gösterilecek eleman sayısı
+  /* sayfa başına eleman sayısı */
   const itemsPerPage = 10;
 
-  // sonuncu elemanın sayısı
+  /* gösterilecek sonuncu eleman */
   const endOffset = itemOffset + itemsPerPage;
-  // sayfa başına o an gösterilecek eleman dizisi
-  const currentItems = store.flights.slice(itemOffset, endOffset);
 
-  const pageCount = Math.ceil(store.flights.length / itemsPerPage);
+  /* gösterilecek aralıktaki elemanlar */
+  const currentItems = store?.flights.slice(itemOffset, endOffset);
+
+  /* toplam sayfa sayısı hesaplama */
+  const pageCount = Math.ceil(store?.flights.length / itemsPerPage);
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % store.flights.length;
+    /* gösterilecek yeni elemanları hesaplar */
+    const newOffset = (event.selected = itemsPerPage) % store?.flights.length;
+    /* state güncelleme */
     setItemOffset(newOffset);
   };
 
   return (
     <div className="list-page">
-      <table className="table table-dark">
+      <table className="table table-dark table-striped table-hover">
         <thead>
           <tr>
             <th>ID</th>
             <th>Kuyruk Kodu</th>
             <th>Enlem</th>
             <th>Boylam</th>
-            <th>Detay Bilgisi</th>
+            <th>Detaylar</th>
           </tr>
         </thead>
-
         <tbody>
           {currentItems.map((flight) => (
-            <tr key={flight.id}>
+            <tr>
               <td>{flight.id}</td>
               <td>{flight.code}</td>
               <td>{flight.lat}</td>
@@ -57,12 +54,13 @@ const ListView = ({ openModal }) => {
         </tbody>
       </table>
       <ReactPaginate
-        className="pagination"
+        previousLabel="< Önceki"
+        nextLabel="Sonraki >"
         pageCount={pageCount}
-        nextLabel="ileri >"
-        previousLabel="< geri"
+        className="pagination"
         activeClassName="active"
         onPageChange={handlePageClick}
+        pageRangeDisplayed={2}
       />
     </div>
   );

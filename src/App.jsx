@@ -1,53 +1,41 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import MapView from "./pages/MapView";
 import ListView from "./pages/ListView";
+import { useDispatch } from "react-redux";
 import { getFlights } from "./redux/actions/flightActions";
 import SideDetail from "./components/SideDetail";
+
 function App() {
   const [showMapView, setShowMapView] = useState(true);
   const [showDetail, setShowDetail] = useState(false);
-  const [detailId, setDetailId] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [detailId, setDetailId] = useState();
+
   const dispatch = useDispatch();
-  const store = useSelector((store) => store);
 
   useEffect(() => {
-    dispatch(getFlights());
-  }, [dispatch]);
+    /* 5 saniyede bir uçuş hareketleri güncellenir */
+    const ref = setInterval(() => {
+      dispatch(getFlights());
+    }, 5000);
 
+    /* kullanıcı farklı bir sayfaya geçince tekrarı durdurur */
+    return () => {
+      clearInterval(ref);
+    };
+  }, []);
+
+  /* modal açmak için */
   const openModal = (id) => {
+    /* detayı gösterilecek uçağın aid'si */
     setDetailId(id);
+    /* modalı açar */
     setShowDetail(true);
-  };
-
-  const handleSearch = () => {
-    // Kullanıcının girdiği arama terimine göre uçuşları filtrele
-    const filteredFlights = store.flights.filter((flight) =>
-      flight.code.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    // Filtrelenmiş uçuşları Redux store'a gönder
-    dispatch(setSearchResults(filteredFlights));
   };
 
   return (
     <>
       <Header />
-
-      <div className="search-container">
-        <input
-          className="search-input"
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Uçuş Ara..."
-        />
-        <button className="button-search" onClick={handleSearch}>
-          Ara
-        </button>
-      </div>
 
       <div className="view-buttons">
         <button
@@ -56,6 +44,7 @@ function App() {
         >
           Harita Görünümü
         </button>
+
         <button
           className={!showMapView ? "active" : ""}
           onClick={() => setShowMapView(false)}
@@ -64,10 +53,7 @@ function App() {
         </button>
       </div>
 
-      {searchQuery ? (
-        // Eğer bir arama yapıldıysa, filtrelenmiş sonuçları göster
-        <ListView openModal={openModal} />
-      ) : showMapView ? (
+      {showMapView ? (
         <MapView openModal={openModal} />
       ) : (
         <ListView openModal={openModal} />
