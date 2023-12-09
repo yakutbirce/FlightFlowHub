@@ -12,13 +12,13 @@ const flightSlice = createSlice({
     initialState,
     extraReducers: (builder) => {
         builder
-            //cevab beklerken
+            //cevap beklerken
 
             .addCase(getFlights.pending, (state) => {
                 state.isLoading = true;
             })
 
-            //olumlu cevab geliğinde
+            //olumlu cevap geldiğinde
 
             .addCase(getFlights.fulfilled, (state, action) => {
                 state.isLoading = false,
@@ -26,7 +26,7 @@ const flightSlice = createSlice({
                     state.flights = action.payload;
             })
 
-            //olumsuz cevab gelem
+            //olumsuz cevap geldiğinde
 
             .addCase(getFlights.rejected, (state) => {
                 state.isLoading = false;

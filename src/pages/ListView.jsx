@@ -7,19 +7,19 @@ const ListView = ({ openModal }) => {
   const [itemOffset, setItemOffset] = useState(0);
   //console.log(store.flights);
 
-  /**Pagination Sistemi Kurmak Gerekli Değer
+  /**Pagination Sistemi Kurmak İçin Gerekli Değerler
    * Sayfa sayısı
-   * sayfada gösterilecek elememan sayısıfı
-   * ve o anki sayfada gösterilecek itemler / elemenalar
+   * sayfada gösterilecek elememan sayısı
+   * ve o anki sayfada gösterilecek itemler / elemanlar
    *
    */
 
   //Sayfa başına gösterilecek eleman sayısı
   const itemsPerPage = 10;
 
-  //Sonuncu elemeanın sayısı
+  //Sonuncu elemanın sayısı
   const endOffset = itemOffset + itemsPerPage;
-  //Sayfa başına o and gösterilecek elemean dizisi
+  //Sayfa başına o anda gösterilecek eleman dizisi
   const currentItems = store.flights.slice(itemOffset, endOffset);
 
   const pageCount = Math.ceil(store.flights.length / itemsPerPage);
